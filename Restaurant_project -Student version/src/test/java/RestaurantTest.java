@@ -3,6 +3,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,9 +51,7 @@ class RestaurantTest {
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
     public void adding_item_to_menu_should_increase_menu_size_by_1(){
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
-        restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+        restaurant = new Restaurant(NAME, LOCATION, OPENING_TIME, CLOSING_TIME);
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
@@ -61,9 +61,7 @@ class RestaurantTest {
     }
     @Test
     public void removing_item_from_menu_should_decrease_menu_size_by_1() throws itemNotFoundException {
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
-        restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+        restaurant = new Restaurant(NAME, LOCATION, OPENING_TIME, CLOSING_TIME);
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
@@ -73,9 +71,7 @@ class RestaurantTest {
     }
     @Test
     public void removing_item_that_does_not_exist_should_throw_exception() {
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
-        restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+        restaurant = new Restaurant(NAME, LOCATION, OPENING_TIME, CLOSING_TIME);
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
@@ -83,4 +79,18 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    @Test
+    public void selecting_items_should_give_sum_of_all_selected_item_price() {
+        restaurant = new Restaurant(NAME, LOCATION, OPENING_TIME, CLOSING_TIME);
+        restaurant.addToMenu("Sweet corn soup",119);
+        restaurant.addToMenu("Vegetable lasagne", 269);
+        restaurant.addToMenu("Paneer Makhani", 131);
+        restaurant.addToMenu("Butter Naan", 100);
+
+        List<String> selectedItems = Arrays.asList("Vegetable lasagne", "Paneer Makhani", "Butter Naan");
+        int cost = restaurant.selectItems(selectedItems);
+
+        assertEquals(500, cost);
+    }
 }
