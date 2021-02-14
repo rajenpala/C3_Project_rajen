@@ -63,4 +63,14 @@ public class Restaurant {
         return name;
     }
 
+    public int selectItems(List<String> items) {
+        final int cost = items.stream()
+                .map(itemName -> findItemByName(itemName))
+                .filter(item -> item != null)
+                .mapToInt(Item::getPrice)
+                .sum();
+
+        return cost;
+    }
+
 }
